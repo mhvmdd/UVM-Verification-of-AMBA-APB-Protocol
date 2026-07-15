@@ -1,0 +1,14 @@
+apb_regfile.v
+shared_pkg.sv
+slave_if.sv
+slave_txn.sv
+slave_seq.sv
+slave_sqr.sv
+slave_dvr.sv
+slave_mon.sv
+slave_agt.sv
+slave_scrbrd.sv
+slave_sub.sv
+slave_env.sv
+slave_test.sv
+slave_top.sv
