@@ -1,5 +1,5 @@
 apb_master.v
-shared_pkg.sv
+../shared_pkg.sv
 mstr_if.sv
 mstr_txn.sv
 mstr_seq.sv
