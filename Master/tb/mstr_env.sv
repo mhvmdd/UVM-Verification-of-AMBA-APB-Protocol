@@ -18,6 +18,7 @@ package mstr_env_pkg;
 
         virtual mstr_if mstr_vif;
 
+        uvm_active_passive_enum env_e;
 
         function new (string name = "mstr_env", uvm_component parent = null);
             super.new(name, parent);
@@ -34,7 +35,11 @@ package mstr_env_pkg;
             if (!uvm_config_db#(virtual mstr_if):: get (this,"", "mstr_vif", mstr_vif))
                 `uvm_fatal(get_full_name(), "ENV Cannot retrieve VIF")
 
+            if (!uvm_config_db#(uvm_active_passive_enum):: get (this, "", "mstr_e", env_e))
+                `uvm_fatal(get_full_name(), "ENV Cannot retrieve ACTIVE/PASSIVE Enum")
+
             uvm_config_db#(virtual mstr_if) :: set (this, "agt", "mstr_vif", mstr_vif);
+            uvm_config_db#(uvm_active_passive_enum) :: set (this, "agt", "mstr_e", env_e);
 
         endfunction
 

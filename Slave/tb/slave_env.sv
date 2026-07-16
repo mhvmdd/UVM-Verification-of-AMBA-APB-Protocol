@@ -18,6 +18,7 @@ package slave_env_pkg;
 
         virtual slave_if slv_vif;
 
+        uvm_active_passive_enum env_e;
 
         function new (string name = "slave_env", uvm_component parent = null);
             super.new(name, parent);
@@ -34,7 +35,11 @@ package slave_env_pkg;
             if (!uvm_config_db#(virtual slave_if):: get (this,"", "slv_vif", slv_vif))
                 `uvm_fatal(get_full_name(), "ENV Cannot retrieve VIF")
 
+            if (!uvm_config_db#(uvm_active_passive_enum):: get (this, "", "slv_e", env_e))
+                `uvm_fatal(get_full_name(), "ENV Cannot retrieve ACTIVE/PASSIVE Enum")
+
             uvm_config_db#(virtual slave_if) :: set (this, "agt", "slv_vif", slv_vif);
+            uvm_config_db#(uvm_active_passive_enum) :: set (this, "agt", "slv_e", env_e);
 
         endfunction
 

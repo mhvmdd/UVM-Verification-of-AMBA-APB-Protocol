@@ -6,7 +6,6 @@ package slave_sqr_pkg;
 
     import slave_txn_pkg::*;
 
-
     class slave_sqr extends uvm_sequencer #(slave_txn);
         `uvm_component_utils(slave_sqr)
 
@@ -15,28 +14,6 @@ package slave_sqr_pkg;
             super.new(name, parent);
         endfunction
 
-
-        function void build_phase (uvm_phase phase);
-            super.build_phase(phase);
-
-        endfunction
-
-        function void connect_phase (uvm_phase phase);
-            super.connect_phase(phase);
-
-        
-        
-        endfunction
-
-
-        task run_phase (uvm_phase phase);
-            super.run_phase(phase);
-            
-        
-        endtask 
     endclass
-
-
-
 
 endpackage : slave_sqr_pkg

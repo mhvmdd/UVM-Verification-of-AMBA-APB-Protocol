@@ -22,6 +22,8 @@ package slave_test_pkg;
         // Virtual Interface
         virtual slave_if slv_vif;
 
+        uvm_active_passive_enum slv_e;
+
         function new (string name = "slave_test", uvm_component parent = null);
             super.new(name, parent);
         endfunction
@@ -35,10 +37,13 @@ package slave_test_pkg;
             read_seq = slave_read_seq::type_id::create("read_seq");
             w_r_seq = slave_write_read_seq::type_id::create("w_r_seq");
 
+            slv_e = UVM_ACTIVE;
+
             if (!uvm_config_db#(virtual slave_if) :: get (this, "", "slv_vif", slv_vif))
                 `uvm_fatal(get_full_name(), "Test Cannot retrieve VIF")
 
             uvm_config_db #(virtual slave_if) :: set (this, "env" /*find by name ig*/, "slv_vif", slv_vif);
+            uvm_config_db #(uvm_active_passive_enum) :: set (this, "env", "slv_e", slv_e);
 
         endfunction
 

@@ -22,6 +22,8 @@ package mstr_test_pkg;
         // Virtual Interface
         virtual mstr_if mstr_vif;
 
+        uvm_active_passive_enum mstr_e;
+
         function new (string name = "mstr_test", uvm_component parent = null);
             super.new(name, parent);
         endfunction
@@ -36,10 +38,13 @@ package mstr_test_pkg;
             w_r_seq = mstr_write_read_seq::type_id::create("w_r_seq");
             btb_seq = mstr_write_read_btb_seq::type_id::create("btb_seq");
 
+            mstr_e = UVM_ACTIVE;
+
             if (!uvm_config_db#(virtual mstr_if) :: get (this, "", "mstr_vif", mstr_vif))
                 `uvm_fatal(get_full_name(), "Test Cannot retrieve VIF")
 
             uvm_config_db #(virtual mstr_if) :: set (this, "env", "mstr_vif", mstr_vif);
+            uvm_config_db #(uvm_active_passive_enum) :: set (this, "env", "mstr_e", mstr_e);
 
         endfunction
 

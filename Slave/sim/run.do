@@ -12,7 +12,7 @@ coverage save slave.ucdb -onexit
 
 run -all
 
-# quit -sim
+quit -sim
 
-# vcover report slave.ucdb -details -annotate -output slave_cvg.txt
+vcover report slave.ucdb -details -annotate -output slave_cvg.txt
 

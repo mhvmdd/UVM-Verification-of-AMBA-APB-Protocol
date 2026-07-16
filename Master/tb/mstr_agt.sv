@@ -20,6 +20,7 @@ package mstr_agt_pkg;
 
         uvm_analysis_port #(mstr_txn) ap;
 
+        uvm_active_passive_enum agt_e;
 
         function new (string name = "mstr_agt", uvm_component parent = null);
             super.new(name, parent);
@@ -29,22 +30,31 @@ package mstr_agt_pkg;
         function void build_phase (uvm_phase phase);
             super.build_phase(phase);
 
-            dvr = mstr_dvr::type_id::create("dvr", this);
+            if (!uvm_config_db#(uvm_active_passive_enum):: get (this, "", "mstr_e", agt_e))
+                `uvm_fatal(get_full_name(), "AGENT Cannot retrieve ACTIVE/PASSIVE Enum")
+
+            if (agt_e == UVM_ACTIVE) begin
+                dvr = mstr_dvr::type_id::create("dvr", this);
+                sqr = mstr_sqr::type_id::create("sqr", this);
+            end
             mon = mstr_mon::type_id::create("mon", this);
-            sqr = mstr_sqr::type_id::create("sqr", this);
 
             ap = new ("ap", this);
             
             if (!uvm_config_db#(virtual mstr_if):: get (this,"", "mstr_vif", mstr_vif))
                 `uvm_fatal(get_full_name(), "Agent Cannot retrieve VIF")
 
-            uvm_config_db#(virtual mstr_if) :: set (this, "dvr", "mstr_vif", mstr_vif);
+            if (agt_e == UVM_ACTIVE)
+                uvm_config_db#(virtual mstr_if) :: set (this, "dvr", "mstr_vif", mstr_vif);
+                
             uvm_config_db#(virtual mstr_if) :: set (this, "mon", "mstr_vif", mstr_vif);
         endfunction
 
         function void connect_phase (uvm_phase phase);
             super.connect_phase(phase);
-            dvr.seq_item_port.connect(sqr.seq_item_export);
+            if (agt_e == UVM_ACTIVE) begin
+                dvr.seq_item_port.connect(sqr.seq_item_export);
+            end
             mon.ap.connect (ap);
         endfunction
 
